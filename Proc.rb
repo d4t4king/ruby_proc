@@ -33,4 +33,46 @@ class Proc::CpuInfo::CPU()
 	attr_accessor :fdiv_bug
 	attr_accessor :f00f_bug
 	attr_accessor :coma_bug
+	attr_accessor :fpu
+	attr_accessor :fpu_exception
+	attr_accessor :cpuid_level
+	attr_accessor :wp
+	attr_accessor :flags
+	attr_accessor :bogomips
+	attr_accessor :clflush_size
+	attr_accessor :cachesize_alignment
+	attr_accessor :address_sizes
+	attr_accessor :power_management
+
+	def initialize() 
+		%x{"cat /proc/cpuinfo"}.split(/\n/).each do |l|
+			l.chomp!
+			[name, value] = l.split(/\:/)
+			name.strip!
+			value.strip!
+
+			case name
+			when /processor/
+				@processor_id = value
+			when /vendor_id/
+				@vendor_id = value
+			when /cpu family/
+				@cpu_family = value
+			when /model/
+				@model = value
+			when /model name/
+				@model_name = value
+			when /stepping/
+				@stepping = value
+			when /microsode/
+				@microcode = value
+			when /cpu MHz/
+				@cpu_mhz = value
+			when /cache size/
+				@cache_size = value
+			else
+				raise "Unrecognized key-value pair:  #{name} : #{value}!"
+			end
+		end
+	end
 end
