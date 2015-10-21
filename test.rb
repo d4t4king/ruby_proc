@@ -4,10 +4,13 @@ require 'rubygems'
 require 'pp'
 require 'colorize'
 
-require_relative './Proc.rb'
+require_relative 'Proc.rb'
 
 p = Proc::CpuInfo.new()
 
 pp p
 
-
+#p.cpus.each do |cpu|
+#	cpu.pretty_print
+#	last		
+#end

@@ -8,13 +8,23 @@ require 'pp'
 #	attr_accessor :proc
 #}
 
-class Proc::CpuInfo()
+class Proc::CpuInfo
 	attr_accessor :processor_count
 	attr_accessor :core_count
 	attr_accessor :cpus				# an array of Proc::CpuInfo::CPU objects
+
+	def initialize() 
+		@processor_count = %x{/bin/grep -c 'processor' /proc/cpuinfo}.chomp.strip.to_i
+		@core_count = %x{/bin/grep 'cpu cores' /proc/cpuinfo | /usr/bin/cut -d: -f2 | /usr/bin/sort -u}.chomp.strip.to_i
+
+		#if @processor_count > 1
+		#	cpu = Process::CpuInfo::CPU.new()
+		#	@cpus << cpu
+		#end
+	end
 end
 
-class Proc::CpuInfo::CPU()
+class Proc::CpuInfo::CPU
 	attr_accessor :processor_id
 	attr_accessor :vendor_id
 	attr_accessor :cpu_family
@@ -47,7 +57,7 @@ class Proc::CpuInfo::CPU()
 	def initialize() 
 		%x{"cat /proc/cpuinfo"}.split(/\n/).each do |l|
 			l.chomp!
-			[name, value] = l.split(/\:/)
+			(name, value) = l.split(/\:/)
 			name.strip!
 			value.strip!
 
@@ -75,4 +85,14 @@ class Proc::CpuInfo::CPU()
 			end
 		end
 	end
+
+	def pretty_print
+		puts <<-EOS
+
+Processor	:	#{@processor_id}
+Vendor ID	:	#{@vendor_id}
+
+EOS
+	end
 end
+
