@@ -4,9 +4,9 @@ require 'rubygems'
 require 'colorize'
 require 'pp'
 
-class Proc() {
-
-}
+#class Proc() {
+#	attr_accessor :proc
+#}
 
 class Proc::CpuInfo()
 	attr_accessor :processor_count
