@@ -10,6 +10,6 @@ p = Proc::CpuInfo.new()
 
 puts p.class
 
-#p.cpus.each do |cpu|
-#	cpu.show_stuff
-#end
+p.cpus.each do |cpu|
+	cpu.show_stuff
+end

@@ -121,7 +121,8 @@ class Proc::CpuInfo
 
 Processor		:	#{@processor_id}
 Vendor ID		:	#{@vendor_id}
-CPU Obj Count	:	#{@cpus.size.to_s}
+Model			:	#{model}
+CPU Family		:	#{@cpu_family}
 
 EOS
 		end
