@@ -56,13 +56,13 @@ class Proc::CpuInfo
 
 				case name
 					when /processor/
-					@processor_id = value
+					@processor_id = value.strip!.to_i
 				when /vendor_id/
-					@vendor_id = value
+					@vendor_id = value.strip!.to_i
 				when /cpu family/
 					@cpu_family = value
 				when /model/
-					@model = value
+					@model = value.strip!.to_i
 				when /model name/
 					@model_name = value
 				when /stepping/
@@ -74,13 +74,13 @@ class Proc::CpuInfo
 				when /cache size/
 					@cache_size = value
 				when /physical id/
-					@physical_id = value
+					@physical_id = value.strip!.to_i
 				when /siblings/
 					@siblings = value
 				when /core id/
-					@core_id = value
+					@core_id = value.strip!.to_i
 				when /cpu cores/
-					@cpu_cores = value
+					@cpu_cores = value.strip!.to_i
 				when /apicid/
 					@apicid = value
 				when /fdiv_bug/
@@ -98,7 +98,7 @@ class Proc::CpuInfo
 				when /flags/
 					@flags = value.split(/ /) { |e| e.strip! }
 				when /bugs/
-					@bugs = value.split(/ /) { |e| e.strip! }
+					@bugs = value.split(/ /) { |e| e.strip! } unless value.nil? || value == ''
 				when /bogomips/
 					@bogomips = value
 				when /clflush size/
@@ -119,10 +119,12 @@ class Proc::CpuInfo
 		def show_stuff
 			puts <<-EOS
 
-Processor		:	#{@processor_id}
-Vendor ID		:	#{@vendor_id}
-Model			:	#{model}
+Processor		:	#{@processor_id.to_s}
+Vendor ID		:	#{@vendor_id.to_s}
+Model			:	#{@model_name}
 CPU Family		:	#{@cpu_family}
+CPU MHz			:	#{@cpu_mhz}
+CPU Cores		:	#{@cpu_cores.to_s}
 
 EOS
 		end
@@ -130,7 +132,7 @@ EOS
 
 	def initialize() 
 		@processor_count = %x{/bin/grep -c 'processor' /proc/cpuinfo}.chomp.strip.to_i
-		@core_count = %x{/bin/grep 'cpu cores' /proc/cpuinfo | /usr/bin/cut -d: -f2 | /usr/bin/sort -u}.chomp.strip.to_i
+		@core_count = %x{/bin/grep 'cpu cores' /proc/cpuinfo | /usr/bin/cut -d: -f2 | /usr/bin/sort -u}.chomp.strip!.to_i
 		@cpus = Array.new
 
 		if @processor_count > 1
@@ -147,6 +149,12 @@ EOS
 			#pp @cpus
 			puts "There are #{@cpus.size} CPUs in @cpus."
 		end
+
+		#total_cores = 0
+		#@cpus.each do |c|
+		#	total_cores += c.cpu_cores
+		#end
+		#puts "Total cores (from CPU objects): #{total_cores.to_s}"
 	end
 end
 

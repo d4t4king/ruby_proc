@@ -8,8 +8,12 @@ require_relative 'Proc.rb'
 
 p = Proc::CpuInfo.new()
 
-puts p.class
+#puts p.class
 
+total_cores = 0
 p.cpus.each do |cpu|
 	cpu.show_stuff
+	total_cores += cpu.cpu_cores
 end
+
+puts "Total cores (from CPU objects): #{total_cores}"
