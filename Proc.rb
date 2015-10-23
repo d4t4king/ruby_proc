@@ -55,14 +55,14 @@ class Proc::CpuInfo
 				value.strip! unless value.nil? || value == ''
 
 				case name
-					when /processor/
-					@processor_id = value.strip!.to_i
+				when /processor/
+					@processor_id = value
 				when /vendor_id/
-					@vendor_id = value.strip!.to_i
+					@vendor_id = value
 				when /cpu family/
 					@cpu_family = value
-				when /model/
-					@model = value.strip!.to_i
+				when /model(?:\t)?\b/
+					@model = value
 				when /model name/
 					@model_name = value
 				when /stepping/
@@ -74,13 +74,13 @@ class Proc::CpuInfo
 				when /cache size/
 					@cache_size = value
 				when /physical id/
-					@physical_id = value.strip!.to_i
+					@physical_id = value
 				when /siblings/
 					@siblings = value
 				when /core id/
-					@core_id = value.strip!.to_i
+					@core_id = value
 				when /cpu cores/
-					@cpu_cores = value.strip!.to_i
+					@cpu_cores = value.to_i
 				when /apicid/
 					@apicid = value
 				when /fdiv_bug/

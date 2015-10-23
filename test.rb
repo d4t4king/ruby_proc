@@ -14,6 +14,11 @@ total_cores = 0
 p.cpus.each do |cpu|
 	cpu.show_stuff
 	total_cores += cpu.cpu_cores
+	puts "#######################################################"
+	puts cpu.inspect
+	puts "#######################################################"
 end
 
 puts "Total cores (from CPU objects): #{total_cores}"
+
+
