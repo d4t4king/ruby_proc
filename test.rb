@@ -8,8 +8,8 @@ require_relative 'Proc.rb'
 
 p = Proc::CpuInfo.new()
 
-#pp p
+pp p
 
-p.cpus.each do |cpu|
-	cpu.show_stuff
-end
+#p.cpus.each do |cpu|
+#	cpu.show_stuff
+#end

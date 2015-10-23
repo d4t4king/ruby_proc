@@ -13,7 +13,7 @@ class Proc::CpuInfo
 	attr_accessor :core_count
 	attr_accessor :cpus				# an array of Proc::CpuInfo::CPU objects
 
-	@cpus = Array.new
+	#@cpus = Array.new
 
 	class Proc::CpuInfo::CPU
 		attr_accessor :processor_id
@@ -139,7 +139,7 @@ EOS
 			puts "CPU data glob count doesn't match processor count: #{cpu_data.size.to_s} : #{@processor_count.to_s}" unless cpu_data.size == @processor_count
 			cpu_data.each do |glob|
 				p = Proc::CpuInfo::CPU.new(glob)
-				@cpus << p
+				pp p
 			end
 		end
 	end
