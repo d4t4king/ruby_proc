@@ -8,7 +8,7 @@ require_relative 'Proc.rb'
 
 p = Proc::CpuInfo.new()
 
-pp p
+puts p.class
 
 #p.cpus.each do |cpu|
 #	cpu.show_stuff
