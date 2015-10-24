@@ -4,7 +4,7 @@ require 'rubygems'
 require 'pp'
 require 'colorize'
 
-require_relative 'Proc.rb'
+require_relative 'lib/Proc.rb'
 
 p = Proc::CpuInfo.new()
 
