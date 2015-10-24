@@ -61,10 +61,10 @@ class Proc::CpuInfo
 					@vendor_id = value
 				when /cpu family/
 					@cpu_family = value
-				when /model(?:\t)?\b/
-					@model = value
 				when /model name/
 					@model_name = value
+				when /model(?:\t)?\b/
+					@model = value
 				when /stepping/
 					@stepping = value
 				when /microcode/
