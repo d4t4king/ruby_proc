@@ -61,5 +61,26 @@ class Proc::MemInfo
 			end
 		end
 	end
+
+	def human_readable
+		return nil if bytes == 0
+		case bytes
+		when bytes > 1024^4								# terabytes
+			giga = 1024^3
+			bytes %= gigs
+			$stderr.puts bytes
+		when bytes <= 1024^4 && bytes > 1024^3			# gigabytes
+			mega = 1024
+		when bytes <= 1024^3 && bytes > 1024^2			# megabytes
+
+		when bytes <= 1024^2 && bytes > 1024			# kilobytes
+			bytes /= 1024^2
+			return "#{bytes} KB"
+		when bytes <= 1024
+			return "#{bytes} B"
+		else
+			puts "We should never get here."
+		end
+	end
 end
 

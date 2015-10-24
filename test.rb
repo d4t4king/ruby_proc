@@ -24,5 +24,5 @@ puts "Total cores (from CPU objects): #{total_cores}"
 
 m = Proc::MemInfo.new()
 #pp m
-puts "Total system memory: #{m.mem_total} Bytes"
+puts "Total system memory: #{m.mem_total.human_readable}"
 
