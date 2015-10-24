@@ -1,3 +1,5 @@
+require_relative './CpuInfo/CPU.rb'
+
 class Proc::CpuInfo
 	attr_accessor :processor_count
 	attr_accessor :core_count

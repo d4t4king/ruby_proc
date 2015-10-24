@@ -5,7 +5,6 @@ require 'pp'
 require 'colorize'
 
 require_relative 'lib/Proc.rb'
-require_relative 'lib/Proc/MemInfo.rb'
 
 p = Proc::CpuInfo.new()
 

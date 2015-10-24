@@ -4,4 +4,7 @@ require 'rubygems'
 require 'colorize'
 require 'pp'
 
-class Proc(); end
+require_relative './Proc/CpuInfo'
+require_relative './Proc/MemInfo'
+
+class Proc; end

@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 	s.description	= 'A simple object oriented interface to /proc/...'
 	s.authors		= ['dataking']
 	s.email			= 'dataking@gmail.com'
-	s.files			= ['lib/Proc.rb', 'test.rb']
+	s.files			= ['lib/Proc/CpuInfo/CPU.rb', 'lib/Proc/CpuInfo.rb', 'lib/ProcMemInfo.rb', 'lib/Proc.rb', 'test.rb']
 	s.homepage		= 'https://github.com/d4t4king/ruby_proc'
 	s.license		= 'GPLv3'
 end
