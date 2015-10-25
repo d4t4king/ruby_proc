@@ -5,6 +5,7 @@ require 'pp'
 require 'colorize'
 
 require_relative 'lib/Proc.rb'
+#include Proc
 
 p = Proc::CpuInfo.new()
 
@@ -23,5 +24,5 @@ puts "Total cores (from CPU objects): #{total_cores}"
 
 m = Proc::MemInfo.new()
 #pp m
-puts "Total system memory: #{m.mem_total.human_readable}"
+puts "Total system memory: #{m.mem_total}"
 
