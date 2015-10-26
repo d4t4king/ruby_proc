@@ -82,6 +82,9 @@ class CPUTest < Test::Unit::TestCase
 	def test_cachesize_alignment
 		assert_kind_of(Fixnum, @@pc.cpus[0].cachesize_alignment)
 	end
+	def test_cache_alignment
+		assert_kind_of(Fixnum, @@pc.cpus[0].cache_alignment)
+	end
 	def test_address_sizes
 		assert_kind_of(Array, @@pc.cpus[0].address_sizes)
 	end
