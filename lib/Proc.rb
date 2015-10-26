@@ -82,56 +82,134 @@ class Proc
 				when /model name/
 					@model_name = value
 				when /model(?:\t)?\b/
-					@model = value
+					@model = value.to_i
 				when /stepping/
-					@stepping = value
+					@stepping = value.to_i
 				when /microcode/
 					@microcode = value
 				when /cpu MHz/
-					@cpu_mhz = value
+					@cpu_mhz = value.to_f
 				when /cache size/
 					@cache_size = value
 				when /physical id/
-					@physical_id = value
+					@physical_id = value.to_i
 				when /siblings/
-					@siblings = value
+					@siblings = value.to_i
 				when /core id/
-					@core_id = value
+					@core_id = value.to_i
 				when /cpu cores/
 					@cpu_cores = value.to_i
 				when /apicid/
-					@apicid = value
+					@apic_id = value.to_i
+				when /initial apicid/
+					@initial_apic_id = value.to_i
 				when /fdiv_bug/
-					@fdiv_bug = false if value == 'no'
+					if value == 'no'
+						@fdiv_bug = false 
+					elsif value == 'yes'
+						@fdiv_bug = true
+					else 
+						@fdiv_bug = -1
+					end
 				when /f00f_bug/
-					@f00f_bug = false if value == 'no'
+					if value == 'no'
+						@f00f_bug = false 
+					elsif value == 'yes'
+						@f00f_bug = true
+					else
+						@f00f_bug = -1
+					end
 				when /coma_bug/
-					@coma_bug = false if value == 'no'
+					if value == 'no'
+						@coma_bug = false 
+					elsif value == 'yes'
+						@coma_bug = true
+					else
+						@coma_bug = -1
+					end
 				when /fpu/
-					@fpu = true if value == 'yes'
+					if value == 'yes'
+						@fpu = true 
+					elsif value == 'no'
+						@fpu = false
+					else
+						@fpu = -1
+					end
+				when /fpu_exception/
+					if value == 'yes'
+						@fpu_exception = true
+					elsif value == 'no'
+						@fpu_exception = false
+					else
+						@fpu_exception = -1
+					end
 				when /cpuid level/
-					@cpuid_level = value
+					@cpuid_level = value.to_i
 				when /wp/
-					@wp = true if value == 'yes'
+					if value == 'yes'
+						@wp = true 
+					elsif value == 'no'
+						@wp = false
+					else
+						@wp = -1
+					end
 				when /flags/
 					@flags = value.split(/ /) { |e| e.strip! }
 				when /bugs/
-					@bugs = value.split(/ /) { |e| e.strip! } unless value.nil? || value == ''
+					@bugs = value.split(/ /) { |e| e.strip! }
 				when /bogomips/
-					@bogomips = value
+					@bogomips = value.to_f
 				when /clflush size/
-					@clflush_size = value
+					@clflush_size = value.to_i
 				when /cache_alignment/
-					@cache_alignment = value
+					@cache_alignment = value.to_i
 				when /address sizes/
-					@address_size = value.split(/\,/)
-					@address_size.each { |e| e.sub!(/\s*(.*?)/, "\\1") }
+					@address_sizes = value.split(/\,/)
+					@address_sizes.each { |e| e.sub!(/\s*(.*?)/, "\\1") }
 				when /power management/
 					@power_management = value
 				else
 					raise "Unrecognized key-value pair:  #{name} : #{value}!"
 				end
 			end
+		end
+
+		def dump_all
+			puts <<-EOS
+Key				:	Value							:	Class/Object Type
+========================================================================================================================
+Processor			:	#{@processor_id.to_s}							:	#{@processor_id.class}
+Vendor ID			:	#{@vendor_id.to_s}							:	#{@vendor_id.class}
+CPU Family			:	#{@cpu_family}							:	#{@cpu_family.class}
+Model Name			:	#{@model_name}		:	#{@model_name.class}
+Model				:	#{@model}							:	#{@model.class}
+Stepping			:	#{@stepping}							:	#{@stepping.class}
+Microcode			:	#{@microcode}							:	#{@microcode.class}
+CPU MHz				:	#{@cpu_mhz}							:	#{@cpu_mhz.class}
+Cache Size			:	#{@cache_size}							:	#{@cache_size.class}
+Physical ID			:	#{@physical_id}							:	#{@physical_id.class}
+Siblings			:	#{@siblings}							:	#{@siblings.class}
+Core ID				:	#{@core_id}							:	#{@core_id.class}
+CPU Cores			:	#{@cpu_cores.to_s}							:	#{@cpu_cores.class}
+APIC ID				:	#{@apic_id}							:	#{@apic_id.class}
+Initial APIC ID			:	#{@initial_apic_id}							:	#{@initial_apic_id.class}
+fdiv Bug			:	#{@fdiv_bug}							:	#{@fdiv_bug.class}
+f00f Bug			:	#{@f00f_bug}							:	#{@f00f_bug.class}
+coma Bug			:	#{@coma_bug}							:	#{@coma_bug.class}
+FPU				:	#{@fpu}							:	#{@fpu.class}
+FPU Exception			:	#{@fpu_exception}							:	#{@fpu_exception.class}
+CPU ID Level			:	#{@cpuid_level}							:	#{@cpuid_level.class}
+WP				:	#{@wp}							:	#{@wp.class}
+Flags				:	#{@flags.to_s}							:	#{@flags.class}
+Bugs				:	#{@bugs.to_s}							:	#{@bugs.class}
+BogoMIPs			:	#{@bogomips}							:	#{@bogomips.class}
+clFlush Size			:	#{@clflush_size}							:	#{@clflush_size.class}
+Cache Alignment			:	#{@cache_alignment.to_s}							:	#{@cache_alignment.class}
+Address Sizes			:	#{@address_size.to_s}			:	#{@address_size.class}
+Power Management		:	#{@power_management}							:	#{@power_management.class}
+=========================================================================================
+
+	EOS
 		end
 
 		def show_stuff

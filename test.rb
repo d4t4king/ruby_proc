@@ -22,6 +22,9 @@ end
 
 puts "Total cores (from CPU objects): #{total_cores}"
 
+puts "#######################################################"
+puts p.cpus[0].dump_all
+puts "#######################################################"
 m = Proc::MemInfo.new()
 #pp m
 puts "Total system memory: #{m.mem_total}"
