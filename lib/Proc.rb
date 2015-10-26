@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'colorize'
+require 'pp'
+
 class Proc
 
 	class Proc::CpuInfo
@@ -70,11 +74,11 @@ class Proc
 
 				case name
 				when /processor/
-					@processor_id = value
+					@processor_id = value.to_i
 				when /vendor_id/
-					@vendor_id = value
+					@vendor_id = value.to_i
 				when /cpu family/
-					@cpu_family = value
+					@cpu_family = value.to_i
 				when /model name/
 					@model_name = value
 				when /model(?:\t)?\b/
