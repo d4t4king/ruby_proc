@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
 	s.version		= '0.0.1'
 	s.date			= '2015-10-22'
 	s.summary		= 'A simple object oriented interface to /proc/...'
-	s.description	= 'A simple object oriented interface to /proc/...'
+	s.description	= 'A simple object oriented interface to /proc/cpuinfo and /proc/meminfo on linux systems.  It\'s possible (yet untested) that this will work on OS X systems, as well.'
 	s.authors		= ['dataking']
 	s.email			= 'dataking@gmail.com'
 	s.files			= ['lib/Proc.rb', 'test/test_cpu.rb', 'test.rb']
