@@ -13,18 +13,18 @@ p = Proc::CpuInfo.new()
 
 total_cores = 0
 p.cpus.each do |cpu|
-	cpu.show_stuff
-	total_cores += cpu.cpu_cores
+	#cpu.show_stuff
+	#total_cores += cpu.cpu_cores
 	#puts "#######################################################"
 	#puts cpu.inspect
 	#puts "#######################################################"
+	puts "#######################################################"
+	puts p.cpus[0].dump_all
+	puts "#######################################################"
 end
 
 puts "Total cores (from CPU objects): #{total_cores}"
 
-puts "#######################################################"
-puts p.cpus[0].dump_all
-puts "#######################################################"
 m = Proc::MemInfo.new()
 #pp m
 puts "Total system memory: #{m.mem_total}"

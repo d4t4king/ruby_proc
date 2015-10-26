@@ -26,7 +26,7 @@ class Proc
 					@cpus.push(p)
 				end
 				#pp @cpus
-				puts "There are #{@cpus.size} CPUs in @cpus."
+				#puts "There are #{@cpus.size} CPUs in @cpus."
 			end
 		end
 	end
@@ -58,6 +58,7 @@ class Proc
 		attr_accessor :bogomips
 		attr_accessor :clflush_size
 		attr_accessor :cachesize_alignment
+		attr_accessor :cache_alignment
 		attr_accessor :address_sizes
 		attr_accessor :power_management
 	
@@ -99,10 +100,10 @@ class Proc
 					@core_id = value.to_i
 				when /cpu cores/
 					@cpu_cores = value.to_i
-				when /apicid/
-					@apic_id = value.to_i
 				when /initial apicid/
 					@initial_apic_id = value.to_i
+				when /apicid/
+					@apic_id = value.to_i
 				when /fdiv_bug/
 					if value == 'no'
 						@fdiv_bug = false 
@@ -127,14 +128,6 @@ class Proc
 					else
 						@coma_bug = -1
 					end
-				when /fpu/
-					if value == 'yes'
-						@fpu = true 
-					elsif value == 'no'
-						@fpu = false
-					else
-						@fpu = -1
-					end
 				when /fpu_exception/
 					if value == 'yes'
 						@fpu_exception = true
@@ -142,6 +135,14 @@ class Proc
 						@fpu_exception = false
 					else
 						@fpu_exception = -1
+					end
+				when /fpu/
+					if value == 'yes'
+						@fpu = true 
+					elsif value == 'no'
+						@fpu = false
+					else
+						@fpu = -1
 					end
 				when /cpuid level/
 					@cpuid_level = value.to_i
@@ -162,6 +163,8 @@ class Proc
 				when /clflush size/
 					@clflush_size = value.to_i
 				when /cachesize_alignment/
+					@cachesize_alignment = value.to_i
+				when /cache(?:_| )alignment/
 					@cache_alignment = value.to_i
 				when /address sizes/
 					@address_sizes = value.split(/\,/)
@@ -181,11 +184,11 @@ Key				:	Value							:	Class/Object Type
 Processor			:	#{@processor_id.to_s}							:	#{@processor_id.class}
 Vendor ID			:	#{@vendor_id.to_s}							:	#{@vendor_id.class}
 CPU Family			:	#{@cpu_family}							:	#{@cpu_family.class}
-Model Name			:	#{@model_name}		:	#{@model_name.class}
+Model Name			:	#{@model_name}			:	#{@model_name.class}
 Model				:	#{@model}							:	#{@model.class}
 Stepping			:	#{@stepping}							:	#{@stepping.class}
-Microcode			:	#{@microcode}							:	#{@microcode.class}
-CPU MHz				:	#{@cpu_mhz}							:	#{@cpu_mhz.class}
+Microcode			:	#{@microcode}						:	#{@microcode.class}
+CPU MHz				:	#{@cpu_mhz}						:	#{@cpu_mhz.class}
 Cache Size			:	#{@cache_size}							:	#{@cache_size.class}
 Physical ID			:	#{@physical_id}							:	#{@physical_id.class}
 Siblings			:	#{@siblings}							:	#{@siblings.class}
@@ -204,10 +207,11 @@ Flags				:	#{@flags.to_s}							:	#{@flags.class}
 Bugs				:	#{@bugs.to_s}							:	#{@bugs.class}
 BogoMIPs			:	#{@bogomips}							:	#{@bogomips.class}
 clFlush Size			:	#{@clflush_size}							:	#{@clflush_size.class}
+Cachesize Alignment		:	#{@cachesize_alignment.to_s}							:	#{@cachesize_alignment.class}
 Cache Alignment			:	#{@cache_alignment.to_s}							:	#{@cache_alignment.class}
-Address Sizes			:	#{@address_size.to_s}			:	#{@address_size.class}
+Address Sizes			:	#{@address_sizes.to_s}			:	#{@address_sizes.class}
 Power Management		:	#{@power_management}							:	#{@power_management.class}
-=========================================================================================
+========================================================================================================================
 
 	EOS
 		end
