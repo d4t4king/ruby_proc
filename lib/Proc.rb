@@ -161,7 +161,7 @@ class Proc
 					@bogomips = value.to_f
 				when /clflush size/
 					@clflush_size = value.to_i
-				when /cache_alignment/
+				when /cachesize_alignment/
 					@cache_alignment = value.to_i
 				when /address sizes/
 					@address_sizes = value.split(/\,/)
