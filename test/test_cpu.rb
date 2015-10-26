@@ -2,13 +2,26 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'Proc')
 require 'test/unit'
 
 class CPUTest < Test::Unit::TestCase
-
-	attr_accessor :pc
-
 	@@pc = Proc::CpuInfo.new()
 
+	def test_processor_count
+		assert_kind_of(Fixnum, @@pc.processor_count)
+	end
+	def test_core_count
+		assert_kind_of(Fixnum, @@pc.core_count)
+	end
+	def test_cpus
+		assert_kind_of(Fixnum, @@pc.cpus.size)
+		assert_kind_of(Array, @@pc.cpus)
+	end
 	def test_processor_id
-		assert_kind_of(Fixnum, @@pc.cpus[0].processor_id, "num")
+		if @@pc.processor_count > 1
+			@@pc.cpus.each do |cpu|
+				assert_kind_of(Fixnum, cpu.processor_id)
+			end
+		else
+			assert_kind_of(Fixnum, @@pc.cpus[0].processor_id)
+		end
 	end
 	def test_vendor_id
 		assert_kind_of(Fixnum, @@pc.cpus[0].vendor_id, "num")

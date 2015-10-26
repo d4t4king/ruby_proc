@@ -14,19 +14,19 @@ class Proc
 			@core_count = %x{/bin/grep 'cpu cores' /proc/cpuinfo | /usr/bin/cut -d: -f2 | /usr/bin/sort -u}.chomp.strip!.to_i
 			@cpus = Array.new
 
-			if @processor_count > 1
+			if @processor_count >= 1
 				puts "Processing #{@processor_count} processors."
 				cpu_data = %x{/bin/cat /proc/cpuinfo}.split(/\n\n/)
 				puts "CPU data glob count doesn't match processor count: #{cpu_data.size.to_s} : #{@processor_count.to_s}" unless cpu_data.size == @processor_count
 				cpu_data.each do |glob|
 					p = Proc::CpuInfo::CPU.new(glob)
-					print "In Proc::CpuInfo.initialize():  ".red
-					puts "#{p.class}"
+					#print "In Proc::CpuInfo.initialize():  ".red
+					#puts "#{p.class}"
 					#pp p
 					@cpus.push(p)
 				end
 				#pp @cpus
-				#puts "There are #{@cpus.size} CPUs in @cpus."
+				#puts "There are #{@cpus.size} CPUs in @cpus.
 			end
 		end
 	end
@@ -157,7 +157,11 @@ class Proc
 				when /flags/
 					@flags = value.split(/ /) { |e| e.strip! }
 				when /bugs/
-					@bugs = value.split(/ /) { |e| e.strip! }
+					if !value.nil? && value != ''
+						@bugs = value.split(/ /) { |e| e.strip! }
+					else
+						@bugs = []
+					end
 				when /bogomips/
 					@bogomips = value.to_f
 				when /clflush size/
@@ -175,6 +179,12 @@ class Proc
 					raise "Unrecognized key-value pair:  #{name} : #{value}!"
 				end
 			end
+
+			@fdiv_bug = -1 if @fdiv_bug.nil?
+			@f00f_bug = -1 if @f00f_bug.nil?
+			@coma_bug = -1 if @coma_bug.nil?
+			@cachesize_alignment = -1 if @cachesize_alignment.nil?
+
 		end
 
 		def dump_all
@@ -294,25 +304,24 @@ CPU Cores		:	#{@cpu_cores.to_s}
 			end
 		end
 	
-		def human_readable
-			return nil if bytes == 0
+		def human_readable(bytes)
+			giga = 1024^4
+			mega = 1024^3
+			kilo = 1024^2
+
 			case bytes
 			when bytes > 1024^4								# terabytes
-				giga = 1024^3
-				bytes %= gigs
-				$stderr.puts bytes
+				bytes %= giga
 			when bytes <= 1024^4 && bytes > 1024^3			# gigabytes
-				bytes / 1024^4
+				bytes %= mega
 			when bytes <= 1024^3 && bytes > 1024^2			# megabytes
-				bytes / 1024^3
-				puts "#{bytes} MB"
+				bytes %= kilo
 			when bytes <= 1024^2 && bytes > 1024			# kilobytes
-				bytes /= 1024^2
-				puts "#{bytes} KB"
+				bytes %= bytes
 			when bytes <= 1024
-				puts "#{bytes} B"
+				bytes
 			else
-				puts "We should never get here."
+				puts "We should never get here.".red
 			end
 		end
 	end
